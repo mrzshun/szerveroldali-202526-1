@@ -28,12 +28,14 @@
       <?php if($fileExists): ?>
         <?php if($postById == null): ?>
             <h1>Blogposts</h1>
-            <?php foreach($posts as $post): ?>
+
+            <pre> <?= print_r($posts) ?> </pre>
+            <!-- <?php foreach($posts as $post): ?>
                 <h2><?=$post['title']?></h2>
                 <p>Author: <?=$post['author']?></p>
                 <p><?=$post['desc']?></p>
                 <a href="task4.php?id=<?=$post['id']?>">details</a>
-            <?php endforeach; ?>
+            <?php endforeach; ?> -->
         <?php else: ?>
             <h1><?=$postById['title']?></h1>
             <p>Author: <?=$postById['author']?></p>
