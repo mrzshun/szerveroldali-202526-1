@@ -15,13 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
-        Category::factory(fake()->numberBetween(5,8))->create();
-        Post::factory(fake()->numberBetween(12,18))->create();
+        $users          = User::factory(10)->create();
+        $categories     = Category::factory(fake()->numberBetween(5,8))->create();
+        $posts          = Post::factory(fake()->numberBetween(12,18))->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        foreach($posts as $post) {
+            if(rand(1,10)>3) {
+                $post->author()->associate($users->random())->save();
+            }
+            $post->categories()->sync(
+                $categories->random(rand(1,$categories->count()))
+            );
+        }
     }
 }
