@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -18,38 +20,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/posts'); //->route('posts.index');
 });
 
-Route::get('/posts', function () {
-    return view('posts.index',[
-        'posts_count' => Post::all(),
-        'users' => User::all(),
-        'categories' => Category::all(),
-    ]);
-});
+// Route::get('/posts', function () {
+//     return view('posts.index',[
+//         'posts' => Post::all(),
+//         'users' => User::all(),
+//         'categories' => Category::all(),
+//     ]);
+// })->name('posts.index');
 
-Route::get('/posts/create', function () {
-    return view('posts.create');
-});
-
-Route::get('/posts/x', function () {
-    return view('posts.show');
-});
-
-Route::get('/posts/x/edit', function () {
-    return view('posts.edit');
-});
+// Route::get('/posts', [PostController::class,'index'])->name('posts.index');
 
 // -----------------------------------------
 
-Route::get('/categories/create', function () {
-    return view('categories.create');
-});
+Route::resource('posts', PostController::class);
 
-Route::get('/categories/x', function () {
-    return view('categories.show');
-});
+Route::resource('categories', CategoryController::class);
+
 
 // -----------------------------------------
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,9 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'bg_color' => fake()->safeHexColor().'ff',
-            'txt_color' => fake()->safeHexColor().'ff',
+            'style' => fake()->randomElement(Category::$styles)
+            // 'bg_color' => fake()->safeHexColor().'ff',
+            // 'txt_color' => fake()->safeHexColor().'ff',
         ];
     }
 }

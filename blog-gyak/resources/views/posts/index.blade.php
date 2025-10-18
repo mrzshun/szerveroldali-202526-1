@@ -11,9 +11,9 @@
             <div class="float-lg-end">
                 {{-- TODO: Links, policy --}}
 
-                <a href="#" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
+                <a href="{{route('posts.create')}}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
 
-                <a href="#" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create category</a>
+                <a href="{{route('categories.create')}}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create category</a>
 
             </div>
         </div>
@@ -41,25 +41,25 @@
                                     <span class="me-2">
                                         <i class="fas fa-user"></i>
                                         {{-- TODO: Author --}}
-                                        <span>By Author</span>
+                                        <span>{{ $post->author ? $post->author->name : "unknown" }}</span>
                                     </span>
 
                                     <span>
                                         <i class="far fa-calendar-alt"></i>
                                         {{-- TODO: Date --}}
-                                        <span>01/01/2022</span>
+                                        <span> {{ substr($post->created_at,0,10)}}</span>
                                     </span>
                                 </p>
 
                                 {{-- TODO: Read post categories from DB --}}
-                                @foreach (['primary', 'secondary','danger', 'warning', 'info', 'dark'] as $category)
+                                @foreach ($post->categories as $category)
                                     <a href="#" class="text-decoration-none">
-                                        <span class="badge bg-{{ $category }}">{{ $category }}</span>
+                                        <span class="badge bg-{{ $category->style }}">{{ $category->name }}</span>
                                     </a>
                                 @endforeach
 
                                 {{-- TODO: Short desc --}}
-                                <p class="card-text mt-1">Short description</p>
+                                <p class="card-text mt-1">{{$post->description}}</p>
                             </div>
                             <div class="card-footer">
                                 {{-- TODO: Link --}}
@@ -92,9 +92,9 @@
                         </div>
                         <div class="card-body">
                             {{-- TODO: Read categories from DB --}}
-                            @foreach (['primary', 'secondary','danger', 'warning', 'info', 'dark'] as $category)
-                                <a href="#" class="text-decoration-none">
-                                    <span class="badge bg-{{ $category }}">{{ $category }}</span>
+                            <a href="#" class="text-decoration-none">
+                                    @foreach ($categories as $category)
+                                    <span class="badge bg-{{ $category->style }}">{{ $category->name }}</span>
                                 </a>
                             @endforeach
                         </div>
