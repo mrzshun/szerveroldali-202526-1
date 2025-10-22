@@ -9,7 +9,12 @@
             <a href="{{ route('posts.index') }}"><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
         </div>
 
-        {{-- TODO: Session flashes --}}
+        @if (Session::has('category_created'))
+        <div class="alert alert-success">
+            Category created: <span class="badge bg-{{ session('style') }}">{{ session('name') }}</span>
+        </div>
+            
+        @endif
 
         {{-- TODO: action, method --}}
         <form method="POST" action="{{ route('categories.store') }}">
