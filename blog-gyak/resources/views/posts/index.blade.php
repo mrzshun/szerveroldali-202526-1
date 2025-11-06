@@ -10,16 +10,23 @@
         <div class="col-12 col-md-4">
             <div class="float-lg-end">
                 {{-- TODO: Links, policy --}}
-
+                @auth
                 <a href="{{route('posts.create')}}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
-
                 <a href="{{route('categories.create')}}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create category</a>
+                @endauth
+
 
             </div>
         </div>
     </div>
 
     {{-- TODO: Session flashes --}}
+        @if (Session::has('not_authenticated'))
+        <div class="alert alert-danger">
+            Be kell jelentkezni a művelet eléréséhez!
+        </div>
+        @endif
+
 
     <div class="row mt-3">
         <div class="col-12 col-lg-9">
@@ -57,7 +64,7 @@
 
                                 {{-- TODO: Read post categories from DB --}}
                                 @foreach ($post->categories as $category)
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="" class="text-decoration-none">
                                         <span class="badge bg-{{ $category->style }}">{{ $category->name }}</span>
                                     </a>
                                 @endforeach
@@ -67,7 +74,7 @@
                             </div>
                             <div class="card-footer">
                                 {{-- TODO: Link --}}
-                                <a href="#" class="btn btn-primary">
+                                <a href="{{route('posts.show',$post)}}" class="btn btn-primary">
                                     <span>View post</span> <i class="fas fa-angle-right"></i>
                                 </a>
                             </div>

@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -28,9 +30,15 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create',[
-            'categories' => Category::all(),
-        ]);
+        if(Auth::check()){
+            return view('posts.create',[
+                'categories' => Category::all(),
+            ]);
+        }
+        else {
+            Session::flash('not_authenticated');
+            return redirect('posts');
+        }
     }
 
     /**
@@ -38,6 +46,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::check()){
+            Session::flash('not_authenticated');
+            return redirect('posts');
+        }
         $validated = $request->validate(
             [
                 'title'         => 'required|min:5|max:32',
@@ -61,6 +73,7 @@ class PostController extends Controller
                 'description'       => $validated['description'],
                 'text'              => $validated['text'],
                 'cover_image_path'  => $cover_image_path == '' ? null : $cover_image_path,
+                'author_id'         => $request->user()->id,
         ]);
 
         if(isset($validated['categories'])) {
@@ -84,7 +97,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $this->authorize('update',$post);
+        return view('posts.edit', [
+            'post' => $post,
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -100,6 +117,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete',$post);
+        Session::flash('post_deleted',$post['title']);
+        $post->delete();
+        return redirect()->route('posts.index');
         //
     }
 }
