@@ -7,6 +7,9 @@ use App\Models\Post;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,5 +30,13 @@ class DatabaseSeeder extends Seeder
                 $categories->random(rand(1,$categories->count()))
             );
         }
+        $admin = User::factory()->create([
+            'name' => 'Admin Béla',
+            'email' => 'admin@admin.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'admin' => true,
+            'remember_token' => Str::random(10),
+        ]);
     }
 }

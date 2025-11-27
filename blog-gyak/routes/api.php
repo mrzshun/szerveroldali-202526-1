@@ -11,6 +11,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user',     [ApiController::class, 'user'])         ->name('api.user');
 
     Route::post('categories', [ApiController::class, 'createCategory'])->name('api.categories.createCategory');
+    Route::put('categories/{id}', [ApiController::class, 'updateCategory'])->name('api.categories.updateCategory');
+    Route::delete('categories/{id}', [ApiController::class, 'deleteCategory'])->name('api.categories.deleteCategory');
 
 });
 
@@ -18,6 +20,9 @@ Route::post('register',     [ApiController::class, 'register'])     ->name('api.
 Route::post('login',        [ApiController::class, 'login'])        ->name('api.login');
 
 Route::get('categories/{id?}', [ApiController::class, 'getCategories'])->where('id','[0-9]+')->name('api.categories.getCategories');
+
+
+Route::get('posts/{id?}', [ApiController::class, 'getPosts'])->where('id','[0-9]+')->name('api.posts.getPosts');
 
 
 Route::get('uri-params/{num}/{str}/{opt?}',function ($num,$str,$opt = null){
